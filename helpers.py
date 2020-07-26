@@ -8,10 +8,11 @@ def generate_world_with_single_infection(nx,ny):
     world[nx//2,ny//2] = 1 # infect the person in the middle
     return world
 
-def infect_neighbours(world):
+def infect_neighbours(world,infection_rate):
     """
     For every infected person, infect all of their neighbours with a given infection rate.
     """
+    nx,ny = world.shape
     for i in range(1,nx-1): # ignore edges for now
         for j in range(1,ny-1): # ignore edges for now
             if world[i,j] == 1: # if infected

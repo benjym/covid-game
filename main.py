@@ -20,6 +20,9 @@ nt = 10 # number of time steps to simulate
 infection_rate = 0.1 # chance of spreading infection to a new cell
 
 if __name__ == '__main__':
+
+    world = generate_world_with_single_infection(nx,ny)
+
     for t in range(nt):
-        world = infect_neighbours(world)
+        world = infect_neighbours(world,infection_rate)
         show_world(world)

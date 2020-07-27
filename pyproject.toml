@@ -1,6 +1,6 @@
 [tool]
 [tool.poetry]
-authors = ["Benjy Marks <benjy.marks@sydney.edu.au>"]
+authors = ["Benjy Marks <benjy.marks@sydney.edu.au>", "Muqeet Amir", "Aradhika Guha"]
 description = "This is a simulator for covid spreading as part of the SUCE Data Science Winter School."
 name = "covid-game"
 version = "0.1.0"

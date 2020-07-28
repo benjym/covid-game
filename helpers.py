@@ -48,26 +48,26 @@ def recover_over_time(world, recovery_days, death):
             if world[i, j] > 0:  # If you're already sick
                 new_world[i, j] += 1  #  add another day to number of sick days
 
+            if world[i, j] == recovery_days:  # If you've been sick for 7 days
                 if np.random.rand() < death:  # There's a chance of 1% of dying
                     new_world[i, j] = -2  # set to -2 if someone dies
-
-            if world[i, j] == recovery_days:  # If you've been sick for 7 days
-                new_world[i, j] = -1  # set to recovered
+                else:
+                    new_world[i, j] = -1  # set to recovered
 
     return new_world
 
 
-def infect_travel(world, travel_rate, nt, encounters_per_day, travel_radius,infection_rate):
+def infect_travel(world, travel_rate, nt, encounters_per_day, travel_radius,infection_rate,incubation_days):
 
     nx, ny = world.shape  # get dimensions of the world
     new_world = world.copy()  # recreate world
 
     for i in range(nx):
         for j in range(ny):
-            if new_world[i,j] > 1:  # assuming sick people are travelling too qrtn =0
-                a = np.random.randint(
-                    np.maximum(1, i - travel_radius),
-                    np.minimum(i + travel_radius, nx - 1))
+            if new_world[i,j] > incubation_days:  # assuming sick people are travelling too qrtn =0
+                a = np.random.randint( # pick a random integer between
+                    np.maximum(1, i - travel_radius), # one from the left or greater
+                    np.minimum(i + travel_radius, nx - 1)) # one from the right or smaller
                 b = np.random.randint(
                     np.maximum(1, j - travel_radius),
                     np.minimum(j + travel_radius, ny - 1))
@@ -87,3 +87,13 @@ def infect_travel(world, travel_rate, nt, encounters_per_day, travel_radius,infe
                         new_world[x, y] = 1
 
     return new_world
+
+
+def hospital(world,recovery_days,original_death_rate,incubation_days,total_space):
+    sick_people = np.sum(world>incubation_days)
+    remaining_space = total_space - sick_people
+
+    if remaining_space <= 0:
+        return original_death_rate*2
+    else:
+        return original_death_rate
